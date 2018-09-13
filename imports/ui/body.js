@@ -1,4 +1,7 @@
 import {
+    Meteor
+} from "meteor/meteor";
+import {
     Template
 } from 'meteor/templating';
 import {
@@ -17,12 +20,32 @@ Template.body.onCreated(function bodyOnCreated() {
 
 Template.body.helpers({
     tasks() {
+        const instance = Template.instance();
+        if (instance.state.get('hideCompleted')) {
+            // If hide completed is checked, filter tasks
+            return Tasks.find({
+                checked: {
+                    $ne: true
+                }
+            }, {
+                sort: {
+                    createdAt: -1
+                }
+            });
+        }
         // Show newest tasks at the top
         return Tasks.find({}, {
             sort: {
                 createdAt: -1
             }
         });
+    },
+    incompleteCount() {
+        return Tasks.find({
+            checked: {
+                $ne: true
+            }
+        }).count();
     },
 });
 
@@ -39,6 +62,8 @@ Template.body.events({
         Tasks.insert({
             text,
             createdAt: new Date(), // current time
+            owner: Meteor.userId(),
+            username: Meteor.user().username,
         });
 
         // Clear form
