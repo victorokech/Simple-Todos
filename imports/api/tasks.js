@@ -10,6 +10,13 @@ import {
 
 export const Tasks = new Mongo.Collection('tasks');
 
+// check if this executions are serverside
+if (Meteor.isServer) {
+    Meteor.publish('tasks', function taskPublication() {
+        return Tasks.find();
+    });    
+}
+
 Meteor.methods({
     'task.insert'(text) {
         check(text, String);
