@@ -12,7 +12,7 @@ export const Tasks = new Mongo.Collection('tasks');
 
 // check if this executions are serverside
 if (Meteor.isServer) {
-    Meteor.publish('tasks', function taskPublication() {
+    Meteor.publish('tasks', function tasksPublication() {
         return Tasks.find();
     });    
 }
