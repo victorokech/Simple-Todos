@@ -14,7 +14,7 @@ export const Tasks = new Mongo.Collection('tasks');
 if (Meteor.isServer) {
     Meteor.publish('tasks', function tasksPublication() {
         return Tasks.find();
-    });    
+    });
 }
 
 Meteor.methods({
@@ -45,6 +45,23 @@ Meteor.methods({
         Tasks.update(taskId, {
             $set: {
                 checked: setChecked
+            }
+        });
+    },
+    'tasks.setPrivate'(taskId, setToPrivate) {
+        check(taskId, String);
+        check(setToPrivate, Boolean);
+
+        const task = Tasks.findOne(taskId);
+
+        // Make sure only the task owner can make a task private
+        if (task.owner !== Meteor.userId()) {
+            throw new Meteor.Error('not-authorized');
+        }
+
+        Tasks.update(taskId, {
+            $set: {
+                private: setToPrivate
             }
         });
     },
