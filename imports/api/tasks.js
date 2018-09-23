@@ -12,16 +12,20 @@ export const Tasks = new Mongo.Collection('tasks');
 
 // check if this executions are serverside
 if (Meteor.isServer) {
-    return Tasks.find({
-        $or: [{
-                private: {
-                    $ne: true
-                }
-            },
-            {
-                owner: this.userId
-            },
-        ],
+    // This code only runs on the server
+    // Only publish tasks that are public or belong to the current user
+    Meteor.publish('tasks', function tasksPublication() {
+        return Tasks.find({
+            $or: [{
+                    private: {
+                        $ne: true
+                    }
+                },
+                {
+                    owner: this.userId
+                },
+            ],
+        });
     });
 }
 
@@ -68,7 +72,7 @@ Meteor.methods({
             }
         });
     },
-    'tasks.setPrivate'(taskId, setToPrivate) {
+    'task.setPrivate'(taskId, setToPrivate) {
         check(taskId, String);
         check(setToPrivate, Boolean);
 

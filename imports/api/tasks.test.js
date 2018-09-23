@@ -27,7 +27,7 @@ if (Meteor.isServer) {
             it('can delete owned task', () => {
                 // Find the internal implementation of the task method so we can
                 // test it in isolation
-                const deleteTask = Meteor.server.method_handlers['tasks.remove'];
+                const deleteTask = Meteor.server.method_handlers['task.remove'];
 
                 // Set up a fake method invocation that looks like what the method expects
                 const invocation = { userId };
