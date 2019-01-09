@@ -4,9 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 
 import { Tasks } from './tasks.js';
-import {
-    assert
-} from 'meteor/practicalmeteor:chai';
+import { assert } from 'chai';
 
 if (Meteor.isServer) {
     describe('Tasks', () => {
