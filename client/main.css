@@ -28,6 +28,10 @@ header {
   position: relative;
 }
 
+.bodywrap {
+  padding:10px;
+}
+
 #login-buttons {
   display: block;
 }
