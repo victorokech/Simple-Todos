@@ -39,10 +39,20 @@ Meteor.methods({
             username: Meteor.users.findOne(this.userId).username,
         });
     },
+    'task.update'(taskId, text) {
+        check(text, String);
+
+        if (!this.userId) {
+            throw new Meteor.Error('not-authorized');
+        }
+
+        Tasks.update(taskId, { $set: { text: text } });
+    },
     'task.remove'(taskId) {
         check(taskId, String);
 
         const task = Tasks.findOne(taskId);
+
         if (task.private && task.owner !== this.userId) {
             // If the task is private, make sure only the owner can delete it
             throw new Meteor.Error('not-authorized');

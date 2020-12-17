@@ -5,6 +5,6 @@ import './login.html';
 
 if (Meteor.userId()) {
     Meteor.setTimeout(() => {
-        FlowRouter.go('/home');
+        FlowRouter.go('/users/home');
     });
 }

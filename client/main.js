@@ -8,5 +8,7 @@ import '../imports/startup/router.js';
 // include pages
 import '../imports/ui/pages/login.js';
 import '../imports/ui/pages/home.js';
+import '../imports/ui/pages/edit-task.js';
+import '..//imports/ui/pages/notfound';
 
 import './main.html';
